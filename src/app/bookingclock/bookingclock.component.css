@@ -1,0 +1,19 @@
+.clock-container{
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.clock-card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.clock{
+    height: 20vh;
+    width: 20vh;
+}
+

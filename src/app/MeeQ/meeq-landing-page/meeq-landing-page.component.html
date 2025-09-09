@@ -1,0 +1,288 @@
+<div class="landing-container">
+  <!-- Header Section -->
+  <header class="header">
+    <div class="logo-container">
+      <h1 class="logo">MeeQ</h1>
+      <span class="tagline">Smart Room Booking for Teams</span>
+    </div>
+    <div class="header-buttons">
+      <button class="btn btn-outline" (click)="normalUserLogin()">Login</button>
+      <button class="btn btn-primary" (click)="normalUserSignup()">Sign Up</button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2>End Booking Chaos in Your Team</h2>
+      <p>MeeQ eliminates manual room booking messages, unclear capacities, and equipment maintenance surprises.</p>
+      <div class="hero-buttons">
+        <button class="btn btn-primary" (click)="normalUserSignup()">Get Started</button>
+        <button class="btn btn-outline" (click)="connectGoogleCalendar()">
+          <i class="fab fa-google"></i> Sync with Google Calendar
+        </button>
+      </div>
+      <div class="hero-features">
+        <div class="feature-tag">
+          <i class="fas fa-bell-slash"></i> No more notification spam
+        </div>
+        <div class="feature-tag">
+          <i class="fas fa-history"></i> Full booking history
+        </div>
+        <div class="feature-tag">
+          <i class="fas fa-users"></i> Clear room capacities
+        </div>
+        <div class="feature-tag">
+          <i class="fas fa-tools"></i> Maintenance visibility
+        </div>
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="comparison-card">
+        <div class="comparison-before">
+          <h4>Before MeeQ</h4>
+          <div class="message-group">
+            <div class="message incoming">
+              <div class="message-content">
+                "Booking Conference Room A for 2pm today"
+              </div>
+              <div class="message-time">10:15 AM</div>
+            </div>
+            <div class="message incoming">
+              <div class="message-content">
+                "Does anyone know if the projector is working?"
+              </div>
+              <div class="message-time">10:17 AM</div>
+            </div>
+            <div class="message incoming">
+              <div class="message-content">
+                "How many people fit in Conference Room A?"
+              </div>
+              <div class="message-time">10:19 AM</div>
+            </div>
+            <div class="notification-badge">23 unread messages</div>
+          </div>
+        </div>
+        <div class="comparison-after">
+          <h4>With MeeQ</h4>
+          <div class="booking-card">
+            <div class="booking-header">
+              <div class="room-name">Conference Room A</div>
+              <div class="booking-status confirmed">Confirmed</div>
+            </div>
+            <div class="booking-details">
+              <div class="detail-item">
+                <i class="fas fa-clock"></i>
+                <span>Today, 2:00 PM - 3:30 PM</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-users"></i>
+                <span>Capacity: 12 people</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-tv"></i>
+                <span>Projector: Available</span>
+              </div>
+            </div>
+            <div class="booking-actions">
+              <button class="btn-icon" title="Add to calendar">
+                <i class="fas fa-calendar-plus"></i>
+              </button>
+              <button class="btn-icon" title="View details">
+                <i class="fas fa-info-circle"></i>
+              </button>
+              <button class="btn-icon" title="Share booking">
+                <i class="fas fa-share-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solutions Section -->
+  <section class="solutions">
+    <h3>Solve Your Booking Problems</h3>
+    <div class="solutions-grid">
+      <div class="solution-card">
+        <div class="solution-icon problem">
+          <i class="fas fa-comment-dots"></i>
+        </div>
+        <h4>Manual Booking Messages</h4>
+        <p>Stop typing booking messages into group chats and creating notification spam for everyone.</p>
+        <div class="solution-icon fix">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="solution-fix">
+          <strong>MeeQ Solution:</strong> Direct bookings that only notify relevant people
+        </div>
+      </div>
+      
+      <div class="solution-card">
+        <div class="solution-icon problem">
+          <i class="fas fa-search"></i>
+        </div>
+        <h4>No Booking History</h4>
+        <p>Stop scrolling through endless messages to find previous bookings.</p>
+        <div class="solution-icon fix">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="solution-fix">
+          <strong>MeeQ Solution:</strong> Easy-to-access booking history and calendar view
+        </div>
+      </div>
+      
+      <div class="solution-card">
+        <div class="solution-icon problem">
+          <i class="fas fa-question-circle"></i>
+        </div>
+        <h4>Unclear Room Capacities</h4>
+        <p>Stop guessing how many people each room can accommodate.</p>
+        <div class="solution-icon fix">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="solution-fix">
+          <strong>MeeQ Solution:</strong> Clear capacity information for every room
+        </div>
+      </div>
+      
+      <div class="solution-card">
+        <div class="solution-icon problem">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h4>Equipment Maintenance Unknown</h4>
+        <p>Stop discovering broken equipment at the start of your meeting.</p>
+        <div class="solution-icon fix">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="solution-fix">
+          <strong>MeeQ Solution:</strong> Maintenance status updates for all equipment
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-it-works">
+    <h3>How MeeQ Works</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h4>Install the Chrome Extension</h4>
+          <p>Add MeeQ to your browser with one click from the Chrome Web Store</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h4>Sync with Google Calendar</h4>
+          <p>Connect your calendar to see real-time availability of rooms and equipment</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h4>Book in Seconds</h4>
+          <p>Select a room, time, and equipment needs - MeeQ handles the rest</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h4>Access Anytime</h4>
+          <p>View all bookings, room details, and equipment status in one place</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Auth Section -->
+  <section class="auth-section" id="Login">
+    <div class="auth-container">
+      <h3>Get Started with MeeQ</h3>
+      <p>Choose your account type to begin</p>
+      
+      <div class="auth-options">
+        <!-- Normal User Section -->
+        <div class="auth-card">
+          <div class="auth-icon"><i class="fas fa-user"></i></div>
+          <h4>Team Member</h4>
+          <p>For employees who need to book rooms and check equipment availability</p>
+          <div class="auth-buttons">
+            <button class="btn btn-login" (click)="normalUserLogin()">Login</button>
+            <button class="btn btn-signup" (click)="normalUserSignup()">Sign Up</button>
+          </div>
+        </div>
+        
+        <!-- Cluster User Section -->
+        <div class="auth-card cluster-card" >
+          <div class="auth-icon"><i class="fas fa-users-cog"></i></div>
+          <h4>Facility Manager</h4>
+          <p>For administrators managing rooms, equipment, and maintenance schedules</p>
+          <div class="auth-buttons">
+            <button class="btn btn-cluster" (click)="redirectToClusterLogin()">Admin Login</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials">
+    <h3>Loved by Teams Everywhere</h3>
+    <div class="testimonial-cards">
+      <div class="testimonial">
+        <div class="testimonial-text">"MeeQ has eliminated the constant 'room booking' messages in our team chat. We've regained hours of productivity each week!"</div>
+        <div class="testimonial-author">
+          <div class="author-avatar"><i class="fas fa-user-circle"></i></div>
+          <div class="author-details">
+            <div class="author-name">Sarah Johnson</div>
+            <div class="author-role">Team Lead, Tech Solutions Inc.</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-text">"The maintenance tracking feature is a game-changer. No more surprises with broken equipment when we start our meetings."</div>
+        <div class="testimonial-author">
+          <div class="author-avatar"><i class="fas fa-user-circle"></i></div>
+          <div class="author-details">
+            <div class="author-name">Michael Chen</div>
+            <div class="author-role">IT Director, Global Innovations</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>MeeQ</h4>
+        <p>Intelligent room booking for modern teams</p>
+      </div>
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <a href="#">Chrome Extension</a>
+        <a href="#">Google Calendar Sync</a>
+        <a href="#">Booking History</a>
+      </div>
+      <div class="footer-section">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Careers</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2023 MeeQ. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
+      </div>
+    </div>
+  </footer>
+</div>

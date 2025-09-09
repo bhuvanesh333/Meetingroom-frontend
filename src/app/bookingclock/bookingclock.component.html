@@ -1,0 +1,25 @@
+<div class="clock-container">
+  <div class="clock-card">
+    <div class="booking-clock">
+      <svg [class]="'clock clock-' + clockId" viewBox="-10 -10 220 220">
+        
+        <!-- Clock face -->
+         <circle cx="100" cy="100" r="103" fill="#fafafa" stroke="#e0e0e0" stroke-opacity="0.5" stroke-width="9" />
+
+        <circle cx="100" cy="100" r="80" fill="#fafafa" stroke="#e0e0e0" stroke-width="2" />
+
+        <!-- Tick marks will be inserted dynamically -->
+        <g [attr.data-tick-marks]="clockId"></g>
+
+        <!-- Booked arcs will be inserted dynamically -->
+        <g [attr.data-booked-group]="clockId"></g>
+        
+        <!-- Hour markers -->
+        <g [attr.data-hour-markers]="clockId"></g>
+
+        <!-- Clock hands will be inserted dynamically -->
+        <g [attr.data-clock-hands]="clockId"></g>
+      </svg>
+    </div>
+  </div>
+</div>
