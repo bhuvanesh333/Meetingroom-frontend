@@ -11,19 +11,23 @@ export class MeeQLandingPageComponent {
 constructor(private route: ActivatedRoute) {}
 
 ngOnInit() {
-  this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
-    const target = params['scrollTo'];
-    if (target) {
-      setTimeout(() => {
-        document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' });
-      }, 0); // Allows Angular to fully render
-    }
-  });
+  this.route.queryParams.subscribe(params => {
+  const target = params['scrollTo'];
+  if (target) {
+    setTimeout(() => {
+      document.getElementById(target)?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }, 0);
+  }
+});
+
 }
 
   // Function to redirect to cluster login page
   redirectToClusterLogin(): void {
-    // Replace with your actual cluster login URL
+
     window.location.href = 'https://cluster.meeq.com/login';
   }
   
