@@ -1,0 +1,61 @@
+<div class="signup-modal">
+    <div class="signup-header">
+        <h2>Admin Registration</h2>
+    </div>
+
+    <form class="signup-form" (ngSubmit)="onSignup()" #signupForm="ngForm">
+        <div class="form-group">
+            <label for="clusterId">Cluster ID</label>
+            <input type="text" id="clusterId" name="clusterId" [(ngModel)]="signupData.clusterId" required
+                placeholder="Enter your cluster ID" class="form-control" (ngModelChange)="clusterCheck(signupData.clusterId)">
+            <small class="help-text">Unique identifier for your organization cluster</small>
+        </div>
+
+        <div class="form-group">
+            <label for="adminName">Admin Name</label>
+            <input type="text" id="adminName" name="adminName" [(ngModel)]="signupData.adminName" required
+                placeholder="Enter your full name" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="emailId">Email Address</label>
+            <input type="email" id="emailId" name="emailId" [(ngModel)]="signupData.emailId" required
+                placeholder="Enter your email address" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="organizationName">Organization Name</label>
+            <input type="text" id="organizationName" name="organizationName" [(ngModel)]="signupData.organizationName"
+                required placeholder="Enter your organization name" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" [(ngModel)]="signupData.password" required
+                placeholder="Create a strong password" class="form-control">
+            <small class="help-text">Minimum 8 characters with letters, numbers and symbols</small>
+        </div>
+
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword" required
+                placeholder="Confirm your password" class="form-control">
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn btn-cancel" (click)="closeModals()">
+                Cancel
+            </button>
+            <button type="submit" class="btn btn-primary"
+                [disabled]="!signupForm.valid || signupData.password !== confirmPassword">
+                Create Admin Account
+            </button>
+        </div>
+    </form>
+
+    <div class="signup-footer">
+        <p>Already have an admin account?
+            <a (click)="switchToLogin()">Login here</a>
+        </p>
+    </div>
+</div>

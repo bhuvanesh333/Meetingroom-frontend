@@ -1,6 +1,4 @@
 
-
-
 export function toTitleCase(str: string) {
     return str
         .split(' ')
@@ -18,3 +16,4 @@ export function  formatTo12Hour(date: Date) {
 
     return `${hours}:${minutesStr} ${ampm}`;
   }
+

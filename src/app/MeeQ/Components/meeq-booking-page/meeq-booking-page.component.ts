@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { MeetingRoom, TimeSlot, BookingclockComponent } from '../../../bookingclock/bookingclock.component';
+import { MeetingRoom, TimeSlot, BookingclockComponent } from '../../CommonComponents/bookingclock/bookingclock.component';
 import { formatTo12Hour, toTitleCase } from '../../../utils/utils';
 
 @Component({

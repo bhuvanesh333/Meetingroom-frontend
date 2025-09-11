@@ -118,7 +118,7 @@
           <strong>MeeQ Solution:</strong> Direct bookings that only notify relevant people
         </div>
       </div>
-      
+
       <div class="solution-card">
         <div class="solution-icon problem">
           <i class="fas fa-search"></i>
@@ -132,7 +132,7 @@
           <strong>MeeQ Solution:</strong> Easy-to-access booking history and calendar view
         </div>
       </div>
-      
+
       <div class="solution-card">
         <div class="solution-icon problem">
           <i class="fas fa-question-circle"></i>
@@ -146,7 +146,7 @@
           <strong>MeeQ Solution:</strong> Clear capacity information for every room
         </div>
       </div>
-      
+
       <div class="solution-card">
         <div class="solution-icon problem">
           <i class="fas fa-exclamation-triangle"></i>
@@ -202,9 +202,9 @@
   <section class="auth-section" id="Login">
     <div class="auth-container">
       <h3>Get Started with MeeQ</h3>
-      <p>Choose your account type to begin</p>
-      
-      <div class="auth-options">
+      <p *ngIf="!showClusterSignup">Choose your account type to begin</p>
+
+      <div class="auth-options" *ngIf="!showClusterSignup">
         <!-- Normal User Section -->
         <div class="auth-card">
           <div class="auth-icon"><i class="fas fa-user"></i></div>
@@ -215,17 +215,34 @@
             <button class="btn btn-signup" (click)="normalUserSignup()">Sign Up</button>
           </div>
         </div>
-        
+
         <!-- Cluster User Section -->
-        <div class="auth-card cluster-card" >
+        <div class="auth-card cluster-card">
           <div class="auth-icon"><i class="fas fa-users-cog"></i></div>
           <h4>Facility Manager</h4>
           <p>For administrators managing rooms, equipment, and maintenance schedules</p>
           <div class="auth-buttons">
-            <button class="btn btn-cluster" (click)="redirectToClusterLogin()">Admin Login</button>
+            <button class="btn btn-cluster" (click)="redirectToClusterLogin()">Cluster Login</button>
+            <button class="btn btn-signup" (click)="redirectToClusterSignup()">Admin SignUp</button>
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Cluster Login Modal -->
+    <div *ngIf="showClusterLogin">
+      <clusterlogin 
+        (closeModal)="handleClose()"
+        (switchToSignupModal)="handleSwitchToSignup()">
+      </clusterlogin>
+    </div>
+
+    <!-- Cluster Signup Modal -->
+    <div *ngIf="showClusterSignup">
+      <app-clustersignup 
+        (closeModal)="handleClose()"
+        (switchToLoginModal)="handleSwitchToLogin()">
+      </app-clustersignup>
     </div>
   </section>
 
@@ -234,7 +251,8 @@
     <h3>Loved by Teams Everywhere</h3>
     <div class="testimonial-cards">
       <div class="testimonial">
-        <div class="testimonial-text">"MeeQ has eliminated the constant 'room booking' messages in our team chat. We've regained hours of productivity each week!"</div>
+        <div class="testimonial-text">"MeeQ has eliminated the constant 'room booking' messages in our team chat. We've
+          regained hours of productivity each week!"</div>
         <div class="testimonial-author">
           <div class="author-avatar"><i class="fas fa-user-circle"></i></div>
           <div class="author-details">
@@ -244,7 +262,8 @@
         </div>
       </div>
       <div class="testimonial">
-        <div class="testimonial-text">"The maintenance tracking feature is a game-changer. No more surprises with broken equipment when we start our meetings."</div>
+        <div class="testimonial-text">"The maintenance tracking feature is a game-changer. No more surprises with broken
+          equipment when we start our meetings."</div>
         <div class="testimonial-author">
           <div class="author-avatar"><i class="fas fa-user-circle"></i></div>
           <div class="author-details">
