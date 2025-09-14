@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ClusterAdminAuthService } from '../../Services/ClusterAdminService/clusterAdminAuthService';
 import { LoginCredentials } from '../../Module/clusterAdminAuthModule';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'clusterlogin',
@@ -18,13 +19,16 @@ export class ClusterloginComponent {
     clusterId: '',
     password: ''
   };
+
   showPassword: boolean = false;
   isLoading: boolean = false;
   errorMessage: string = '';
 
 
 
-  constructor(private clusterAdminAuthService: ClusterAdminAuthService) { }
+  constructor(private clusterAdminAuthService: ClusterAdminAuthService,
+    private route:Router
+  ) { }
 
   onSubmit() {
     if (!this.loginCredentials.clusterId.trim()) {
@@ -47,6 +51,8 @@ export class ClusterloginComponent {
           next: ((response) => {
             if (response.ok) {
                 alert("Login Success")
+                localStorage.setItem("ClusterId",response.body?.data)
+                this.route.navigate(['/clusterPage'])
                 this.closeModal.emit();
             }
           }),

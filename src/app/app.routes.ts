@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-    {path:"",redirectTo:"clusterPage",pathMatch:"full"},
+    {path:"",redirectTo:"index",pathMatch:"full"},
     {
         path:"index",
         loadComponent: () => import('./MeeQ/Components/meeq-index-page/meeq-index-page.component').then(

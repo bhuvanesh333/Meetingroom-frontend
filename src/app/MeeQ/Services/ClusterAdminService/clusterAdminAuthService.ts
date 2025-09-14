@@ -2,7 +2,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
-import { apiResponse, LoginCredentials } from '../../Module/clusterAdminAuthModule';
+import { apiResponse, LoginCredentials, SignupData } from '../../Module/clusterAdminAuthModule';
 
 @Injectable({
   providedIn: 'root',
@@ -13,11 +13,17 @@ export class ClusterAdminAuthService {
   constructor(private http: HttpClient) { }
 
   ClusterAdminUserLogin(payload: LoginCredentials): Observable<HttpResponse<apiResponse>> {
-
     const body = payload;
-
     return this.http
       .post<apiResponse>(`${this.apiUrl}/cluserAdminAuth/ClusterAdminLogin`, body, {
+        observe: 'response',
+      });
+  }
+
+  ClusterAdminUserSignup(payload:SignupData):Observable<HttpResponse<apiResponse>> {
+    const body = payload;
+    return this.http
+      .post<apiResponse>(`${this.apiUrl}/cluserAdminAuth/ClusterAdminSignup`, body, {
         observe: 'response',
       });
   }

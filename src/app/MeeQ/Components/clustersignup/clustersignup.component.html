@@ -7,8 +7,13 @@
         <div class="form-group">
             <label for="clusterId">Cluster ID</label>
             <input type="text" id="clusterId" name="clusterId" [(ngModel)]="signupData.clusterId" required
-                placeholder="Enter your cluster ID" class="form-control" (ngModelChange)="clusterCheck(signupData.clusterId)">
-            <small class="help-text">Unique identifier for your organization cluster</small>
+                placeholder="Enter your cluster ID" class="form-control"
+                (ngModelChange)="clusterCheck(signupData.clusterId)">
+            <small class="help-text" *ngIf="signupData.clusterId.length < 5">
+                Cluster ID must be at least 5 characters
+            </small>
+
+            <small class="help-text" *ngIf="field_validator.cluster_id">Cluster id already taken!</small>
         </div>
 
         <div class="form-group">

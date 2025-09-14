@@ -1,258 +1,299 @@
+<!-- clusteradminpage.component.html -->
 <div class="cluster-admin-container">
-      <header class="admin-header">
-        <div class="header-content">
-          <div class="title-section">
-            <h1>MeeQ Building Administration</h1>
-            <p class="cluster-info">Cluster ID: {{ clusterData?.Cluster_ID }}</p>
-          </div>
-          <div class="stats-section">
-            <div class="stat-card">
-              <div class="stat-number">{{ getTotalBuildings() }}</div>
-              <div class="stat-label">Buildings</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-number">{{ getTotalRooms() }}</div>
-              <div class="stat-label">Rooms</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-number">{{ users.length }}</div>
-              <div class="stat-label">Users</div>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <!-- Navigation Tabs -->
-      <div class="navigation-tabs">
-        <button 
-          class="tab-button" 
-          [class.active]="activeTab === 'buildings'"
-          (click)="activeTab = 'buildings'"
-        >
-          🏢 Buildings & Rooms
-        </button>
-        <button 
-          class="tab-button" 
-          [class.active]="activeTab === 'users'"
-          (click)="activeTab = 'users'"
-        >
-          👥 User Management
-        </button>
+  <header class="admin-header">
+    <div class="header-content">
+      <div class="title-section">
+        <h1>MeeQ Building Administration</h1>
+        <p class="cluster-info">Cluster ID: {{ClusterId}}</p>
       </div>
-
-      <!-- Buildings Tab -->
-      <div *ngIf="activeTab === 'buildings'" class="tab-content">
-        <div class="buildings-grid">
-          <div 
-            class="building-card" 
-            *ngFor="let building of groupedBuildings"
-          >
-            <div class="building-header">
-              <h2>{{ building.buildingName }}</h2>
-              <span class="room-count">{{ building.rooms.length }} Rooms</span>
-            </div>
-
-            <div class="rooms-grid">
-              <div 
-                class="room-card"
-                *ngFor="let room of building.rooms"
-                [class.available]="room.isAvailable"
-                [class.unavailable]="!room.isAvailable"
-                (mouseenter)="showRoomDetails(room, $event)"
-                (mouseleave)="hideRoomDetails()"
-              >
-                <div class="room-image">
-                  <img 
-                    [src]="room.imageUrl || getDefaultRoomImage(room.ConferenceRoomType)" 
-                    [alt]="room.ConferenceRoomName"
-                    class="room-img"
-                  >
-                  <div class="room-status" [class.available]="room.isAvailable">
-                    {{ room.isAvailable ? 'Available' : 'Occupied' }}
-                  </div>
-                </div>
-
-                <div class="room-info">
-                  <h3>{{ room.ConferenceRoomName }}</h3>
-                  <p class="room-type">{{ room.ConferenceRoomType }}</p>
-                  <p class="room-floor">{{ room.Floor }}</p>
-                  <p class="room-capacity">
-                    <i class="capacity-icon">👥</i> {{ room.Capacity }} people
-                  </p>
-                </div>
-
-                <div class="room-actions">
-                  <button class="btn btn-edit" (click)="editRoom(room)">Edit</button>
-                  <button class="btn btn-toggle" (click)="toggleAvailability(room)">
-                    {{ room.isAvailable ? 'Set Unavailable' : 'Set Available' }}
-                  </button>
-                </div>
-              </div>
-            </div>
+      <div class="stats-section">
+        <div class="stat-card">
+          <div class="stat-number">{{ getTotalBuildings() }}</div>
+          <div class="stat-label">Buildings</div>
+        </div>
+        <div class="stat-card">
+          <div *ngIf="clusterData?.Buildings">
+            <div class="stat-number">{{ getTotalRooms() }}</div>
           </div>
+          <div class="stat-label">Rooms</div>
         </div>
-
-        <div class="floating-add-btn">
-          <button class="btn-add" (click)="showAddRoomModal()">
-            + Add Room
-          </button>
-        </div>
-      </div>
-
-      <!-- Users Tab -->
-      <div *ngIf="activeTab === 'users'" class="tab-content">
-        <div class="users-section">
-          <div class="section-header">
-            <h2>Cluster Users</h2>
-            <button class="btn btn-primary" (click)="showAddUserModal()">
-              + Add User
-            </button>
-          </div>
-
-          <div class="users-grid">
-            <div class="user-card" *ngFor="let user of users">
-              <div class="user-info">
-                <div class="user-avatar">
-                  {{ user.email.charAt(0).toUpperCase() }}
-                </div>
-                <div class="user-details">
-                  <h3>{{ user.email }}</h3>
-                  <p class="user-role">{{ user.role | titlecase }}</p>
-                  <p class="user-date">Added: {{ user.dateAdded | date:'short' }}</p>
-                </div>
-              </div>
-              <div class="user-status">
-                <span class="status-badge" [class]="user.status">
-                  {{ user.status | titlecase }}
-                </span>
-              </div>
-              <div class="user-actions">
-                <button class="btn btn-sm btn-edit" (click)="editUser(user)">Edit</button>
-                <button class="btn btn-sm btn-danger" (click)="removeUser(user)">Remove</button>
-                <button 
-                  class="btn btn-sm btn-secondary" 
-                  *ngIf="user.status === 'pending'"
-                  (click)="resendInvite(user)"
-                >
-                  Resend Invite
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Room Details Tooltip -->
-      <div 
-        class="room-details-tooltip" 
-        *ngIf="hoveredRoom"
-        [style.left.px]="tooltipPosition.x"
-        [style.top.px]="tooltipPosition.y"
-      >
-        <h4>{{ hoveredRoom.ConferenceRoomName }}</h4>
-        <div class="tooltip-content">
-          <p><strong>Type:</strong> {{ hoveredRoom.ConferenceRoomType }}</p>
-          <p><strong>Floor:</strong> {{ hoveredRoom.Floor }}</p>
-          <p><strong>Capacity:</strong> {{ hoveredRoom.Capacity }} people</p>
-          <p><strong>Status:</strong> 
-            <span [class]="hoveredRoom.isAvailable ? 'available' : 'unavailable'">
-              {{ hoveredRoom.isAvailable ? 'Available' : 'Occupied' }}
-            </span>
-          </p>
-          <p><strong>Room ID:</strong> {{ hoveredRoom.id }}</p>
-        </div>
-      </div>
-
-      <!-- Add Room Modal -->
-      <div class="modal-overlay" *ngIf="showRoomModal" (click)="hideAddRoomModal()">
-        <div class="modal-content" (click)="$event.stopPropagation()">
-          <h3>Add New Room</h3>
-          <form (ngSubmit)="addNewRoom()" #roomForm="ngForm">
-            <div class="form-group">
-              <label>Building Name:</label>
-              <input type="text" [(ngModel)]="newRoom.BuildingName" name="buildingName" required>
-            </div>
-            <div class="form-group">
-              <label>Room Name:</label>
-              <input type="text" [(ngModel)]="newRoom.ConferenceRoomName" name="roomName" required>
-            </div>
-            <div class="form-group">
-              <label>Floor:</label>
-              <input type="text" [(ngModel)]="newRoom.Floor" name="floor" required>
-            </div>
-            <div class="form-group">
-              <label>Room Type:</label>
-              <select [(ngModel)]="newRoom.ConferenceRoomType" name="roomType" required>
-                <option value="Conference Room">Conference Room</option>
-                <option value="Meeting Room">Meeting Room</option>
-                <option value="Board Room">Board Room</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Capacity:</label>
-              <input type="number" [(ngModel)]="newRoom.Capacity" name="capacity" required min="1">
-            </div>
-            <div class="form-group">
-              <label>Image URL:</label>
-              <input type="url" [(ngModel)]="newRoom.imageUrl" name="imageUrl">
-            </div>
-            <div class="form-actions">
-              <button type="button" class="btn btn-cancel" (click)="hideAddRoomModal()">Cancel</button>
-              <button type="submit" class="btn btn-primary" [disabled]="!roomForm.valid">Add Room</button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <!-- Add User Modal -->
-      <div class="modal-overlay" *ngIf="showUserModal" (click)="hideAddUserModal()">
-        <div class="modal-content" (click)="$event.stopPropagation()">
-          <h3>Add New User</h3>
-          <form (ngSubmit)="addNewUser()" #userForm="ngForm">
-            <div class="form-group">
-              <label>Email Address:</label>
-              <input 
-                type="email" 
-                [(ngModel)]="newUser.email" 
-                name="email" 
-                required 
-                email
-                placeholder="user@example.com"
-              >
-            </div>
-            <div class="form-group">
-              <label>Temporary Password:</label>
-              <div class="password-input-group">
-                <input 
-                  type="text" 
-                  [(ngModel)]="newUser.tempPassword" 
-                  name="tempPassword" 
-                  required 
-                  minlength="6"
-                  placeholder="Enter temporary password"
-                >
-                <button 
-                  type="button" 
-                  class="btn btn-secondary btn-sm"
-                  (click)="generateTempPassword()"
-                >
-                  Generate
-                </button>
-              </div>
-              <small class="form-hint">User will be required to change this on first login</small>
-            </div>
-            <div class="form-group">
-              <label>Role:</label>
-              <select [(ngModel)]="newUser.role" name="role" required>
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-              </select>
-            </div>
-            <div class="form-actions">
-              <button type="button" class="btn btn-cancel" (click)="hideAddUserModal()">Cancel</button>
-              <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">Add User</button>
-            </div>
-          </form>
+        <div class="stat-card">
+          <div class="stat-number">{{ users.length }}</div>
+          <div class="stat-label">Users</div>
         </div>
       </div>
     </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <div class="navigation-tabs">
+    <button class="tab-button" [class.active]="activeTab === 'buildings'" (click)="activeTab = 'buildings'">
+      🏢 Buildings & Rooms
+    </button>
+    <button class="tab-button" [class.active]="activeTab === 'users'" (click)="activeTab = 'users'">
+      👥 User Management
+    </button>
+  </div>
+
+  <!-- Buildings Tab -->
+  <div *ngIf="activeTab === 'buildings'" class="tab-content">
+
+    <!-- Filter Section -->
+    <div class="filter-section">
+      <div class="filter-header">
+        <h3>🔍 Filter Rooms</h3>
+        <div class="filter-results">
+          Showing {{ getFilteredRoomsCount() }} of {{ getTotalRooms() }} rooms
+        </div>
+      </div>
+
+      <div class="filters-grid">
+        <div class="filter-group">
+          <label>Room Name:</label>
+          <input type="text" [(ngModel)]="roomNameFilter" (ngModelChange)="onFilterChange()"
+            placeholder="Search room name..." class="filter-input">
+        </div>
+
+        <div class="filter-group">
+          <label>Building:</label>
+          <select [(ngModel)]="buildingFilter" (ngModelChange)="onFilterChange()" class="filter-select">
+            <option value="">All Buildings</option>
+            <option *ngFor="let building of getUniqueBuildings()" [value]="building">{{ building }}</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Floor:</label>
+          <select [(ngModel)]="floorFilter" (ngModelChange)="onFilterChange()" class="filter-select">
+            <option value="">All Floors</option>
+            <option *ngFor="let floor of getUniqueFloors()" [value]="floor">{{ floor }}</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Room Type:</label>
+          <select [(ngModel)]="roomTypeFilter" (ngModelChange)="onFilterChange()" class="filter-select">
+            <option value="">All Types</option>
+            <option *ngFor="let type of getUniqueRoomTypes()" [value]="type">{{ type }}</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Availability:</label>
+          <select [(ngModel)]="availabilityFilter" (ngModelChange)="onFilterChange()" class="filter-select">
+            <option value="all">All Status</option>
+            <option value="available">Available Only</option>
+            <option value="unavailable">Occupied Only</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Capacity:</label>
+          <select [(ngModel)]="capacityFilter" (ngModelChange)="onFilterChange()" class="filter-select">
+            <option value="all">All Sizes</option>
+            <option value="small">Small (≤8 people)</option>
+            <option value="medium">Medium (9-15 people)</option>
+            <option value="large">Large (16+ people)</option>
+          </select>
+        </div>
+
+        <div class="filter-actions">
+          <button class="btn btn-secondary btn-sm" (click)="clearFilters()">
+            🗑️ Clear All
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="buildings-grid">
+      <div class="building-card" *ngFor="let building of filteredBuildings">
+        <div class="building-header">
+          <h2>{{ building.buildingName }}</h2>
+          <span class="room-count">{{ building.rooms.length }} Rooms</span>
+        </div>
+
+        <div class="rooms-grid">
+          <div class="room-card" *ngFor="let room of building.rooms" [class.available]="room.isAvailable"
+            [class.unavailable]="!room.isAvailable" (mouseenter)="showRoomDetails(room, $event)"
+            (mouseleave)="hideRoomDetails()">
+            <div class="room-image">
+              <img [src]="room.imageUrl || getDefaultRoomImage(room.ConferenceRoomType)" [alt]="room.ConferenceRoomName"
+                class="room-img">
+              <div class="room-status" [class.available]="room.isAvailable">
+                {{ room.isAvailable ? 'Available' : 'Occupied' }}
+              </div>
+            </div>
+
+            <div class="room-info">
+              <h3>{{ room.ConferenceRoomName }}</h3>
+              <p class="room-type">{{ room.ConferenceRoomType }}</p>
+              <p class="room-floor">{{ room.Floor }}</p>
+              <p class="room-capacity">
+                <i class="capacity-icon">👥</i> {{ room.Capacity }} people
+              </p>
+            </div>
+
+            <div class="room-actions">
+              <button class="btn btn-edit" (click)="editRoom(room)" title="Edit room">
+                Edit
+              </button>
+              <button class="btn btn-toggle" (click)="toggleAvailability(room)" title="Toggle availability">
+                {{ room.isAvailable ? 'unAvailable' : 'Available' }}
+              </button>
+              <button class="btn btn-delete" (click)="deleteRoom(room)" title="Delete room">
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No results message -->
+    <div *ngIf="filteredBuildings.length === 0" class="no-results">
+      <div class="no-results-content">
+        <h3>🔍 No rooms found</h3>
+        <p>Try adjusting your filters or add new rooms to get started.</p>
+        <button class="btn btn-primary" (click)="clearFilters()">Clear Filters</button>
+      </div>
+    </div>
+
+    <div class="floating-add-btn">
+      <button class="btn-add" (click)="showAddRoomModal()">
+        + Add Room
+      </button>
+    </div>
+  </div>
+
+  <!-- Users Tab -->
+  <div *ngIf="activeTab === 'users'" class="tab-content">
+    <div class="users-section">
+      <div class="section-header">
+        <h2>Cluster Users</h2>
+        <button class="btn btn-primary" (click)="showAddUserModal()">
+          + Add User
+        </button>
+      </div>
+
+      <div class="users-grid">
+        <div class="user-card" *ngFor="let user of users">
+          <div class="user-info">
+            <div class="user-avatar">
+              {{ user.email.charAt(0).toUpperCase() }}
+            </div>
+            <div class="user-details">
+              <h3>{{ user.email }}</h3>
+              <p class="user-role">{{ user.role | titlecase }}</p>
+              <p class="user-date">Added: {{ user.dateAdded | date:'short' }}</p>
+            </div>
+          </div>
+          <div class="user-status">
+            <span class="status-badge" [class]="user.status">
+              {{ user.status | titlecase }}
+            </span>
+          </div>
+          <div class="user-actions">
+            <button class="btn btn-sm btn-edit" (click)="editUser(user)">Edit</button>
+            <button class="btn btn-sm btn-danger" (click)="removeUser(user)">Remove</button>
+            <button class="btn btn-sm btn-secondary" *ngIf="user.status === 'pending'" (click)="resendInvite(user)">
+              Resend Invite
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Room Details Tooltip -->
+  <div class="room-details-tooltip" *ngIf="hoveredRoom" [style.left.px]="tooltipPosition.x"
+    [style.top.px]="tooltipPosition.y">
+    <h4>{{ hoveredRoom.ConferenceRoomName }}</h4>
+    <div class="tooltip-content">
+      <p><strong>Type:</strong> {{ hoveredRoom.ConferenceRoomType }}</p>
+      <p><strong>Floor:</strong> {{ hoveredRoom.Floor }}</p>
+      <p><strong>Capacity:</strong> {{ hoveredRoom.Capacity }} people</p>
+      <p><strong>Status:</strong>
+        <span [class]="hoveredRoom.isAvailable ? 'available' : 'unavailable'">
+          {{ hoveredRoom.isAvailable ? 'Available' : 'Occupied' }}
+        </span>
+      </p>
+      <p><strong>Room ID:</strong> {{ hoveredRoom.id }}</p>
+    </div>
+  </div>
+
+  <!-- Add Room Modal -->
+  <div class="modal-overlay" *ngIf="showRoomModal" (click)="hideAddRoomModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h3>Add New Room</h3>
+      <form (ngSubmit)="addNewRoom()" #roomForm="ngForm">
+        <div class="form-group">
+          <label>Building Name:</label>
+          <input type="text" [(ngModel)]="newRoom.BuildingName" name="buildingName" required>
+        </div>
+        <div class="form-group">
+          <label>Room Name:</label>
+          <input type="text" [(ngModel)]="newRoom.ConferenceRoomName" name="roomName" required>
+        </div>
+        <div class="form-group">
+          <label>Floor:</label>
+          <input type="text" [(ngModel)]="newRoom.Floor" name="floor" required>
+        </div>
+        <div class="form-group">
+          <label>Room Type:</label>
+          <select [(ngModel)]="newRoom.ConferenceRoomType" name="roomType" required>
+            <option value="Conference Room">Conference Room</option>
+            <option value="Meeting Room">Meeting Room</option>
+            <option value="Board Room">Board Room</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Capacity:</label>
+          <input type="number" [(ngModel)]="newRoom.Capacity" name="capacity" required min="1">
+        </div>
+        <div class="form-group">
+          <label>Image URL:</label>
+          <input type="url" [(ngModel)]="newRoom.imageUrl" name="imageUrl">
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-cancel" (click)="hideAddRoomModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!roomForm.valid">{{!editRoomModal?"Add Room":"Update Room"}}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add User Modal -->
+  <div class="modal-overlay" *ngIf="showUserModal" (click)="hideAddUserModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h3>Add New User</h3>
+      <form (ngSubmit)="addNewUser()" #userForm="ngForm">
+        <div class="form-group">
+          <label>Email Address:</label>
+          <input type="email" [(ngModel)]="newUser.email" name="email" required email placeholder="user@example.com">
+        </div>
+        <div class="form-group">
+          <label>Temporary Password:</label>
+          <div class="password-input-group">
+            <input type="text" [(ngModel)]="newUser.tempPassword" name="tempPassword" required minlength="6"
+              placeholder="Enter temporary password">
+            <button type="button" class="btn btn-secondary btn-sm" (click)="generateTempPassword()">
+              Generate
+            </button>
+          </div>
+          <small class="form-hint">User will be required to change this on first login</small>
+        </div>
+        <div class="form-group">
+          <label>Role:</label>
+          <select [(ngModel)]="newUser.role" name="role" required>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-cancel" (click)="hideAddUserModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">Add User</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

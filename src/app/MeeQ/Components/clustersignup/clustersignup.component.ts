@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ClusterAdminAuthService } from '../../Services/ClusterAdminService/clusterAdminAuthService';
+import { SignupData } from '../../Module/clusterAdminAuthModule';
 
 @Component({
   selector: 'app-clustersignup',
@@ -11,12 +12,16 @@ import { ClusterAdminAuthService } from '../../Services/ClusterAdminService/clus
 })
 export class ClustersignupComponent {
 
+  field_validator = {
+    cluster_id: false
+  }
+
   @Output() closeModal = new EventEmitter<void>();
   @Output() switchToLoginModal = new EventEmitter<void>();
 
-  constructor(private clusterAdminAuthService:ClusterAdminAuthService){}
+  constructor(private clusterAdminAuthService: ClusterAdminAuthService) { }
 
-  signupData = {
+  signupData: SignupData = {
     clusterId: '',
     adminName: '',
     emailId: '',
@@ -27,15 +32,17 @@ export class ClustersignupComponent {
   confirmPassword = '';
 
   clusterCheck(cluster_id: string) {
-    if(cluster_id.length<5)return
+
     this.clusterAdminAuthService.ClusterAdminClusterIdCheck(cluster_id).subscribe({
-      next:(response)=>{
-        if(response.ok){
-          console.log(response.body);
+      next: (response) => {
+        if (response.ok) {
+          this.field_validator.cluster_id = !response.body?.data;
         }
       },
-      error:()=>{
-
+      error: (error) => {
+        if (error.status == 500) {
+          alert('Internal server error');
+        }
       }
     })
 
@@ -58,8 +65,23 @@ export class ClustersignupComponent {
     // Here you would typically call your authentication service
     console.log('Admin Signup Data:', this.signupData);
 
-    // Simulate API call
-    alert('Admin account created successfully!');
-    this.closeModal.emit();
+    this.clusterAdminAuthService.ClusterAdminUserSignup(this.signupData).subscribe(
+      {
+        next: (response) => {
+          if (response.ok) {
+            this.switchToLoginModal.emit();
+            alert('Admin account created successfully!');
+            this.closeModal.emit();
+          } else if (response.status == 409) {
+            alert(response.body?.message)
+          }
+        },
+        error: (err) => {
+          if (err.status == 500) {
+            alert('Internal server error');
+          }
+        }
+      }
+    )
   }
 }

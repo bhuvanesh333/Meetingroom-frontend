@@ -5,5 +5,5 @@
   box-sizing: border-box;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-html, body { height: 100%; }
+html, body { height: 50%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,19 +1,41 @@
-.clock-container{
-    display: flex;
-    position: relative;
-    justify-content: center;
-    align-items: center;
+.clock-container {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
-.clock-card{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
+.clock-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
+  max-width: 100%;
+  max-height: 100%;
 }
 
-.clock{
-    height: 20vh;
-    width: 20vh;
+.clock {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1; /* Ensure clock stays circular */
 }
 
+.booking-clock {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Remove the min/max constraints or make them more flexible */
+.clock svg {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
