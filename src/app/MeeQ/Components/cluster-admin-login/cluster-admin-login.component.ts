@@ -9,8 +9,8 @@ import { Router, RouterModule } from '@angular/router';
   selector: 'clusterlogin',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './clusterlogin.component.html',
-  styleUrl: './clusterlogin.component.css'
+  templateUrl: './cluster-admin-login.component.html',
+  styleUrl: './cluster-admin-login.component.css'
 })
 export class ClusterloginComponent {
   @Output() closeModal = new EventEmitter<void>();

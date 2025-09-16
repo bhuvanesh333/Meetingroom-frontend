@@ -2,7 +2,8 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
-import { apiResponse, LoginCredentials, SignupData } from '../../Module/clusterAdminAuthModule';
+import { LoginCredentials, SignupData } from '../../Module/clusterAdminAuthModule';
+import { apiResponse } from '../../Module/commonModule';
 
 @Injectable({
   providedIn: 'root',

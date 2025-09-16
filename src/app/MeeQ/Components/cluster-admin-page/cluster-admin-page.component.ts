@@ -8,8 +8,8 @@ import { ClusterAdminPageService } from '../../Services/ClusterAdminService/clus
   selector: 'clusteradminpage',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './clusteradminpage.component.html',
-  styleUrls: ['./clusteradminpage.component.css'],
+  templateUrl: './cluster-admin-page.component.html',
+  styleUrls: ['./cluster-admin-page.component.css'],
 })
 export class ClusteradminpageComponent implements OnInit {
   ClusterId: string = '';
@@ -347,15 +347,12 @@ export class ClusteradminpageComponent implements OnInit {
     this.clusterAdminPageService.ClusterAddConferenceRoom(this.newRoom, this.ClusterId).subscribe({
       next: (response) => {
         if (response.ok) {
-          console.log('Room added successfully:', this.newRoom.ConferenceRoomName);
+          console.log('Room added successfully:', response.body?.data?.room_id);
           
           // Get the new room ID from response if available
-          if (response.body?.data?.id) {
-            this.newRoom.id = response.body.data.id;
-          } else {
-            // Generate temporary ID if not provided
-            this.newRoom.id = Math.floor(Math.random() * 10000);
-          }
+          if (response.body?.data?.room_id) {
+            this.newRoom.id = response.body.data.room_id;
+          } 
           
           // Update local data immediately instead of refetching
           this.addLocalRoomData(this.newRoom);

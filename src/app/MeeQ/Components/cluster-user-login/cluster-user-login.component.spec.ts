@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MeeqindexpageComponent } from './meeq-index-page.component';
+import { MeeqindexpageComponent } from './cluster-user-login.component';
 
 describe('MeeqindexpageComponent', () => {
   let component: MeeqindexpageComponent;

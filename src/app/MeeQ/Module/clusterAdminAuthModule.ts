@@ -10,8 +10,3 @@ export interface SignupData {
     password: string
   };
 
-export interface apiResponse{
-    message:string,
-    error:string,
-    data?:any
-}

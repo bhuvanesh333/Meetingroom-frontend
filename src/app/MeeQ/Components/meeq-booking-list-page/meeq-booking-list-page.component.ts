@@ -1,15 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { MeetingRoom, TimeSlot, BookingclockComponent } from '../../CommonComponents/bookingclock/bookingclock.component';
 import { formatTo12Hour, toTitleCase } from '../../../utils/utils';
+import { ClusterUserData } from '../../Module/clusterUserAuthModule';
+import { ClusterUserPageService } from '../../Services/ClusterUserService/clusterUserPageService';
 
 @Component({
   selector: 'meeq-booking-page',
   imports: [CommonModule, BookingclockComponent],
-  templateUrl: './meeq-booking-page.component.html',
-  styleUrl: './meeq-booking-page.component.css'
+  templateUrl: './meeq-booking-list-page.component.html',
+  styleUrl: './meeq-booking-list-page.component.css'
 })
-export class MeeQBookingpageComponent {
+export class MeeQBookingpageComponent implements OnInit{
   // ViewChild to access the info panel element
   @ViewChild('infoPanelRef', { static: false }) infoPanelRef!: ElementRef;
 
@@ -80,6 +82,31 @@ export class MeeQBookingpageComponent {
       ],
     },
   ];
+  userData!: ClusterUserData;
+
+  constructor(private clusterUserPageService:ClusterUserPageService){}
+
+  ngOnInit(): void {
+    this.loadClusterUserData();
+  }
+
+  loadClusterUserData():void{
+    this.userData = JSON.parse(localStorage.getItem("ClusterUserData") || "null");
+    this.clusterUserPageService.ClusterUserGetAllBooking(this.userData.Cluster_ID).subscribe(
+      {
+        next:(response)=>{
+          if(response.ok){
+            this.meetingRooms = response.body?.data["Buildings"];
+          }
+        },
+        error:(err)=>{
+          if(err.status == 500){
+            alert("Error")
+          }
+        }
+      }
+    )
+  }
 
   selectRoom(room: MeetingRoom): void {
     this.selectedRoom = room;

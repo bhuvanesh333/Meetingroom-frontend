@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MeeQBookingpageComponent } from './meeq-booking-page.component';
+import { MeeQBookingpageComponent } from './meeq-booking-list-page.component';
 
 describe('MeeQBookingpageComponent', () => {
   let component: MeeQBookingpageComponent;

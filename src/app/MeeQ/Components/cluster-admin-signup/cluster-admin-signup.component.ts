@@ -7,8 +7,8 @@ import { SignupData } from '../../Module/clusterAdminAuthModule';
 @Component({
   selector: 'app-clustersignup',
   imports: [CommonModule, FormsModule],
-  templateUrl: './clustersignup.component.html',
-  styleUrl: './clustersignup.component.css'
+  templateUrl: './cluster-admin-signup.component.html',
+  styleUrl: './cluster-admin-signup.component.css'
 })
 export class ClustersignupComponent {
 

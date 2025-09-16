@@ -2,8 +2,8 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
-import { apiResponse } from '../../Module/clusterAdminAuthModule';
 import { ConferenceRoom, } from '../../Module/clusterAdminPageModule';
+import { apiResponse } from '../../Module/commonModule';
 
 @Injectable({
     providedIn: 'root',

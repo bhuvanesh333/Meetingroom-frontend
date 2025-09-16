@@ -1,18 +1,27 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ClusterloginComponent } from "../clusterlogin/clusterlogin.component";
-import { ClustersignupComponent } from "../clustersignup/clustersignup.component";
+import { ClusterloginComponent } from "../cluster-admin-login/cluster-admin-login.component";
+import { ClustersignupComponent } from "../cluster-admin-signup/cluster-admin-signup.component";
+
 import { CommonModule } from '@angular/common';
+import { ClusterUserSignupComponent } from '../cluster-user-signup/cluster-user-signup.component';
 
 @Component({
   selector: 'meeq-landing-page',
   templateUrl: './meeq-landing-page.component.html',
   styleUrls: ['./meeq-landing-page.component.css'],
-  imports: [CommonModule, ClusterloginComponent, ClustersignupComponent]
+  imports: [
+    CommonModule, 
+    ClusterloginComponent, 
+    ClustersignupComponent,
+    ClusterUserSignupComponent
+  ]
 })
 export class MeeQLandingPageComponent {
   showClusterLogin: boolean = false;
   showClusterSignup: boolean = false;
+  showClusterUserLogin: boolean = false;
+  showClusterUserSignup: boolean = false;
 
   constructor(private route: ActivatedRoute) { }
 
@@ -30,56 +39,74 @@ export class MeeQLandingPageComponent {
     });
   }
 
-  // Function to redirect to cluster login page
+  // Cluster user functions
   redirectToClusterLogin(): void {
+    this.closeAllModals();
     this.showClusterLogin = true;
-    this.showClusterSignup = false; // Ensure only one modal is open
   }
 
-  // Function to redirect to cluster signup page
   redirectToClusterSignup(): void {
+    this.closeAllModals();
     this.showClusterSignup = true;
-    this.showClusterLogin = false; // Ensure only one modal is open
   }
 
-  handleClose() {
+  // Cluster user functions
+  clusterUserLogin(): void {
+    this.closeAllModals();
+    this.showClusterUserLogin = true;
+  }
+
+  clusterUserSignup(): void {
+    this.closeAllModals();
+    this.showClusterUserSignup = true;
+  }
+
+  // Modal management functions
+  closeAllModals(): void {
     this.showClusterLogin = false;
     this.showClusterSignup = false;
+    this.showClusterUserLogin = false;
+    this.showClusterUserSignup = false;
   }
 
-  handleSwitchToSignup() {
+  handleClose(): void {
+    this.closeAllModals();
+  }
+
+  // Cluster modal switches
+  handleSwitchToSignup(): void {
     this.showClusterLogin = false;
     this.showClusterSignup = true;
   }
 
-  handleSwitchToLogin() {
+  handleSwitchToLogin(): void {
     this.showClusterSignup = false;
     this.showClusterLogin = true;
   }
 
-  handleForgot() {
-    // e.g. navigate to forgot-password page or show form
+  // Cluster user modal switches
+  handleClusterUserSwitchToSignup(): void {
+    this.showClusterUserLogin = false;
+    this.showClusterUserSignup = true;
   }
 
-  // Function to handle normal user login
-  normalUserLogin(): void {
-    // Add your login logic here
-    console.log('Normal user login');
+  handleClusterUserSwitchToLogin(): void {
+    this.showClusterUserSignup = false;
+    this.showClusterUserLogin = true;
   }
 
-  // Function to handle normal user signup
-  normalUserSignup(): void {
-    // Add your signup logic here
-    console.log('Normal user signup');
+  handleForgotPassword(): void {
+    // Handle forgot password logic here
+    console.log('Forgot password clicked');
+    // You can implement a forgot password modal or redirect
   }
 
-  // Function to connect with Google Calendar
+  // Utility functions
   connectGoogleCalendar(): void {
     // Add Google Calendar integration logic here
     console.log('Connect to Google Calendar');
   }
 
-  // Function to view booking history
   viewBookingHistory(): void {
     // Add booking history logic here
     console.log('View booking history');

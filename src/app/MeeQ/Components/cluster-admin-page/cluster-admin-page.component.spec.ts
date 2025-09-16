@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ClusteradminpageComponent } from './clusteradminpage.component';
+import { ClusteradminpageComponent } from './cluster-admin-page.component';
 
 describe('ClusteradminpageComponent', () => {
   let component: ClusteradminpageComponent;

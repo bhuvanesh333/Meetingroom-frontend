@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ClusterloginComponent } from './clusterlogin.component';
+import { ClustersignupComponent } from './cluster-admin-signup.component';
 
-describe('ClusterloginComponent', () => {
-  let component: ClusterloginComponent;
-  let fixture: ComponentFixture<ClusterloginComponent>;
+describe('ClustersignupComponent', () => {
+  let component: ClustersignupComponent;
+  let fixture: ComponentFixture<ClustersignupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ClusterloginComponent]
+      imports: [ClustersignupComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ClusterloginComponent);
+    fixture = TestBed.createComponent(ClustersignupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
